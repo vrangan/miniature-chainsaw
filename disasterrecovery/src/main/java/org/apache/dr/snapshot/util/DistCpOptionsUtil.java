@@ -49,15 +49,6 @@ public final class DistCpOptionsUtil {
             distcpOptions.setSyncFolder(true);
             distcpOptions.setSkipCRC(true);
         } else {
-//            if (!isSnapshot) {
-//                String overwrite = cmd.getOptionValue(DRDistCpOptions.DISTCP_OPTION_OVERWRITE.getName());
-//                if (StringUtils.isNotEmpty(overwrite) && overwrite.equalsIgnoreCase(Boolean.TRUE.toString())) {
-//                    distcpOptions.setOverwrite(Boolean.parseBoolean(overwrite));
-//                } else {
-//                    distcpOptions.setSyncFolder(true);
-//                }
-//            }
-
             String skipChecksum = cmd.getOptionValue(DRDistCpOptions.DISTCP_OPTION_SKIP_CHECKSUM.getName());
             if (StringUtils.isNotEmpty(skipChecksum)) {
                 distcpOptions.setSkipCRC(Boolean.parseBoolean(skipChecksum));
@@ -66,28 +57,6 @@ public final class DistCpOptionsUtil {
 
         // Settings needed for Snapshot distCp.
         distcpOptions.setSyncFolder(true);
-        distcpOptions.setDeleteMissing(true);
-
-//        if (isSnapshot) {
-//            // Settings needed for Snapshot distCp.
-//            distcpOptions.setSyncFolder(true);
-//            distcpOptions.setDeleteMissing(true);
-//        } else {
-//            // Removing deleted files by default - FALCON-1844
-//            String removeDeletedFiles = cmd.getOptionValue(
-//                    DRDistCpOptions.DISTCP_OPTION_REMOVE_DELETED_FILES.getName(), "true");
-//            boolean deleteMissing = Boolean.parseBoolean(removeDeletedFiles);
-//            distcpOptions.setDeleteMissing(deleteMissing);
-//
-//            if (deleteMissing) {
-//                // DistCP will fail with InvalidInputException if deleteMissing is set to true and
-//                // if targetPath does not exist. Create targetPath to avoid failures.
-//                FileSystem fs = HadoopClientFactory.get().createProxiedFileSystem(targetPath.toUri(), conf, user);
-//                if (!fs.exists(targetPath)) {
-//                    fs.mkdirs(targetPath);
-//                }
-//            }
-//        }
 
         String ignoreErrors = cmd.getOptionValue(DRDistCpOptions.DISTCP_OPTION_IGNORE_ERRORS.getName());
         if (StringUtils.isNotBlank(ignoreErrors)) {

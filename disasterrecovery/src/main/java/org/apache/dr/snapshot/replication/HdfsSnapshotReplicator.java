@@ -84,7 +84,7 @@ public class HdfsSnapshotReplicator extends Configured implements Tool {
 
         // Always add to getConf() so that configuration set by oozie action is
         // available when creating DistributedFileSystem.
-        DistributedFileSystem sourceFs = HdfsSnapshotUtil.getSourceFileSystem(sourceStorageUrl,sourceExecuteEndpoint,
+        DistributedFileSystem sourceFs = HdfsSnapshotUtil.getSourceFileSystem(sourceStorageUrl, sourceExecuteEndpoint,
                 sourcePrincipal,
                 new Configuration(getConf()));
         DistributedFileSystem targetFs = HdfsSnapshotUtil.getTargetFileSystem(targetStorageUrl,
@@ -162,7 +162,21 @@ public class HdfsSnapshotReplicator extends Configured implements Tool {
         // get latest replicated snapshot.
         String replicatedSnapshotName = findLatestReplicatedSnapshot(sourceFs, targetFs, sourceDir, targetDir);
         if (StringUtils.isNotBlank(replicatedSnapshotName)) {
+            // -delete and -diff are mutually exclusive. The -delete option will be ignored.
             distcpOptions.setUseDiff(true, replicatedSnapshotName, currentSnapshotName);
+            distcpOptions.setDeleteMissing(false);
+        } else {
+            String overwrite = cmd.getOptionValue(DRDistCpOptions.DISTCP_OPTION_OVERWRITE.getName());
+            if (StringUtils.isNotEmpty(overwrite) && overwrite.equalsIgnoreCase(Boolean.TRUE.toString())) {
+                distcpOptions.setOverwrite(Boolean.parseBoolean(overwrite));
+            } else {
+                distcpOptions.setSyncFolder(true);
+            }
+            // Removing deleted files by default - FALCON-1844
+            String removeDeletedFiles = cmd.getOptionValue(
+                    DRDistCpOptions.DISTCP_OPTION_REMOVE_DELETED_FILES.getName(), "true");
+            boolean deleteMissing = Boolean.parseBoolean(removeDeletedFiles);
+            distcpOptions.setDeleteMissing(deleteMissing);
         }
 
         return distcpOptions;
