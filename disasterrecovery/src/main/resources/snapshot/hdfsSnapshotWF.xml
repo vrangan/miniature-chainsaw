@@ -108,7 +108,7 @@
             <arg>-tdeEncryptionEnabled</arg>
             <arg>${tdeEncryptionEnabled}</arg>
             <arg>-snapshotJobName</arg>
-            <arg>${snapshotJobName}-${nominalTime}</arg>
+            <arg>${snapshotJobName}</arg>
         </java>
         <ok to="snapshot-retention"/>
         <error to="failed-post-processing"/>
@@ -184,7 +184,7 @@
             <arg>-targetSnapshotRetentionNumber</arg>
             <arg>${targetSnapshotRetentionNumber}</arg>
             <arg>-snapshotJobName</arg>
-            <arg>${snapshotJobName}-${nominalTime}</arg>
+            <arg>${snapshotJobName}</arg>
         </java>
         <ok to="succeeded-post-processing"/>
         <error to="failed-post-processing"/>
