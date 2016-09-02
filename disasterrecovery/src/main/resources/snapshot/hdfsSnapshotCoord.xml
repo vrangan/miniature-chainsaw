@@ -15,7 +15,8 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<coordinator-app xmlns="uri:oozie:coordinator:0.3" name="DR_snapshot" frequency="${freq}" start="${startTime}" end="${endTime}" timezone="${timeZone}">
+<coordinator-app xmlns="uri:oozie:coordinator:0.5" name="DR_snapshot"
+                 frequency="${freq}" start="${startTime}" end="${endTime}" timezone="${timeZone}">
     <controls>
         <timeout>${timeout}</timeout>
         <concurrency>${concurrency}</concurrency>

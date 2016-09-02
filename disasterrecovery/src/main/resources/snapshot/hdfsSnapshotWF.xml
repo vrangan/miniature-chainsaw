@@ -15,7 +15,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<workflow-app xmlns='uri:oozie:workflow:0.3' name='hdfs-snapshot-dr'>
+<workflow-app xmlns='uri:oozie:workflow:0.5' name='hdfs-snapshot-dr'>
     <start to='snapshot-dr'/>
     <!-- Snapshot DR action -->
     <action name="snapshot-dr">
@@ -56,7 +56,7 @@
                     <value>${sourceNN},${targetNN}</value>
                 </property>
             </configuration>
-            <main-class>org.apache.dr.snapshot.replication.HdfsSnapshotReplicator</main-class>
+            <main-class>org.miniature.chainsaw.snapshot.replication.HdfsSnapshotReplicator</main-class>
             <arg>-Dmapred.job.queue.name=${queueName}</arg>
             <arg>-Dmapred.job.priority=${jobPriority}</arg>
             <arg>-maxMaps</arg>
@@ -152,7 +152,7 @@
                     <value>${sourceNN},${targetNN}</value>
                 </property>
             </configuration>
-            <main-class>org.apache.dr.snapshot.retention.HdfsSnapshotEvictor</main-class>
+            <main-class>org.miniature.chainsaw.snapshot.retention.HdfsSnapshotEvictor</main-class>
             <arg>-Dmapred.job.queue.name=${queueName}</arg>
             <arg>-Dmapred.job.priority=${jobPriority}</arg>
             <arg>-sourceNN</arg>
@@ -207,7 +207,7 @@
                     <value>${libPath}</value>
                 </property>
             </configuration>
-            <main-class>org.apache.dr.DRPostProcessing</main-class>
+            <main-class>org.miniature.chainsaw.DRPostProcessing</main-class>
             <arg>-workflowId</arg>
             <arg>${wf:id()}</arg>
             <arg>-runId</arg>
@@ -236,7 +236,7 @@
                     <value>${libPath}</value>
                 </property>
             </configuration>
-            <main-class>org.apache.dr.DRPostProcessing</main-class>
+            <main-class>org.miniature.chainsaw.DRPostProcessing</main-class>
             <arg>-nominalTime</arg>
             <arg>${nominalTime}</arg>
             <arg>-workflowId</arg>
