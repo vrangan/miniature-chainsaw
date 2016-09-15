@@ -18,7 +18,7 @@
 <workflow-app xmlns='uri:oozie:workflow:0.5' name='hdfs-snapshot-dr'>
     <start to='snapshot-dr'/>
     <!-- Snapshot DR action -->
-    <action name="snapshot-dr">
+    <action name="snapshot-dr" retry-max="${retryMax}" retry-interval="${retryIntervalInSec}">
         <java>
             <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
@@ -114,7 +114,7 @@
         <error to="failed-post-processing"/>
     </action>
     <!-- Snapshot retention action -->
-    <action name="snapshot-retention">
+    <action name="snapshot-retention" retry-max="${retryMax}" retry-interval="${retryIntervalInSec}">
         <java>
             <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
@@ -189,7 +189,7 @@
         <ok to="succeeded-post-processing"/>
         <error to="failed-post-processing"/>
     </action>
-    <action name="succeeded-post-processing" retry-max="3" retry-interval="1">
+    <action name="succeeded-post-processing" retry-max="${retryMax}" retry-interval="${retryIntervalInSec}">
         <java>
             <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
@@ -218,7 +218,7 @@
         <ok to="end"/>
         <error to="fail"/>
     </action>
-    <action name="failed-post-processing" retry-max="3" retry-interval="1">
+    <action name="failed-post-processing" retry-max="${retryMax}" retry-interval="${retryIntervalInSec}">
         <java>
             <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
@@ -237,8 +237,6 @@
                 </property>
             </configuration>
             <main-class>org.miniature.chainsaw.DRPostProcessing</main-class>
-            <arg>-nominalTime</arg>
-            <arg>${nominalTime}</arg>
             <arg>-workflowId</arg>
             <arg>${wf:id()}</arg>
             <arg>-runId</arg>
